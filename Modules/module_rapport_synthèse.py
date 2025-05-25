@@ -49,9 +49,15 @@ def rapport_synthese():
     # Rappprt de synthèse (Total livraisons)
     total_livraison = pd.read_sql_query(f"SELECT SUM(quantite) AS total FROM productions WHERE {clause}", conn)["total"][0] or 0
     # Rappprt de synthèse (Total ventes)
-    total_ventes = pd.read_sql_query(f"SELECT SUM(quantite * prix_unitaire) AS total FROM ventes WHERE {clause.replace('date_livraison', 'date_vente')}", conn)["total"][0] or 0
+    total_ventes = pd.read_sql_query(
+        f"""SELECT SUM(quantite * prix_unitaire) AS total 
+            FROM ventes 
+            WHERE {clause.replace('date_livraison', 'date_vente')} 
+            AND statut IN ('valide', 'correction')""",
+        conn
+    )["total"][0] or 0
     # Rappprt de synthèse (Total cotisations)
-    total_cotisations = pd.read_sql_query(f"SELECT SUM(montant) AS total FROM cotisations WHERE {clause.replace('date_livraison', 'date_paiement')}", conn)["total"][0] or 0
+    total_cotisations = pd.read_sql_query(f"SELECT SUM(montant) AS total FROM cotisations WHERE statut != 'erreur' AND {clause.replace('date_livraison', 'date_paiement')}", conn)["total"][0] or 0
     
     # Rappprt de synthèse (recettes et dépenses)
     q_compta = pd.read_sql_query(f"SELECT type, SUM(montant) as total FROM comptabilite WHERE {clause.replace('date_livraison', 'date_operation')} GROUP BY type", conn)

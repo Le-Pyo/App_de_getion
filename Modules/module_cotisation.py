@@ -60,7 +60,7 @@ def gestion_cotisations():
     # Historique des cotisations
     st.subheader("Historique des cotisations")
     df = pd.read_sql_query('''
-        SELECT c.id, m.nom AS membre, c.montant, c.date_paiement, c.mode_paiement, c.motif, c.statut, c.correction_id
+        SELECT c.id, c.id_membre, m.nom AS membre, c.montant, c.date_paiement, c.mode_paiement, c.motif, c.statut, c.correction_id
         FROM cotisations c
         JOIN membres m ON c.id_membre = m.id
         ORDER BY c.date_paiement DESC
@@ -105,7 +105,7 @@ def gestion_cotisations():
                     # Ajouter une correction
                     c.execute('''INSERT INTO cotisations (id_membre, montant, date_paiement, mode_paiement, motif, statut, correction_id)
                                  VALUES (?, ?, ?, ?, ?, 'correction', ?)''',
-                              (membre_selection[0], montant_corrige, date_corrigee.strftime('%Y-%m-%d'), mode_corrige, motif_corrige, row["id"]))
+                              (row['id_membre'], montant_corrige, date_corrigee.strftime('%Y-%m-%d'), mode_corrige, motif_corrige, row["id"]))
                     conn.commit()
                     st.success(f"Cotisation #{row['id']} corrigée avec succès.")
                     st.rerun()

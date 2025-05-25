@@ -62,7 +62,7 @@ def gestion_production():
     # Historique des livraisons
     st.subheader("Historique des livraisons")
     df = pd.read_sql_query('''
-        SELECT p.id, m.nom AS membre, p.date_livraison, p.quantite, p.qualite, p.zone, p.statut, p.correction_id
+        SELECT p.id, p.id_membre, m.nom AS membre, p.date_livraison, p.quantite, p.qualite, p.zone, p.statut, p.correction_id
         FROM productions p
         JOIN membres m ON p.id_membre = m.id
         ORDER BY p.date_livraison DESC
@@ -105,7 +105,7 @@ def gestion_production():
                     c.execute("UPDATE productions SET statut = 'erreur' WHERE id = ?", (row['id'],))
                     c.execute('''INSERT INTO productions (id_membre, date_livraison, quantite, qualite, zone, statut, correction_id)
                                  VALUES (?, ?, ?, ?, ?, 'correction', ?)''',
-                              (membre_selection[0], date_corr.strftime('%Y-%m-%d'), quantite_corr, qualite_corr, zone_corr, row['id']))
+                              (row['id_membre'], date_corr.strftime('%Y-%m-%d'), quantite_corr, qualite_corr, zone_corr, row['id']))
                     conn.commit()
                     st.success("Correction enregistrée.")
                     st.rerun()

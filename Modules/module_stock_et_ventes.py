@@ -158,12 +158,6 @@ def gestion_ventes():
             conn.commit()
             st.success("Vente enregistrée.")
 
-            # Enregistrement automatique en comptabilité
-            total_montant = quantite * prix_unitaire
-            c.execute('''INSERT INTO comptabilite (date_operation, type, categorie, montant, description)
-                         VALUES (?, ?, ?, ?, ?)''',
-                      (date_vente, "recette", "Vente de latex", total_montant, f"Vente à {acheteur}"))
-            conn.commit()
 
     # Historique des ventes
     st.subheader("Historique des ventes")
