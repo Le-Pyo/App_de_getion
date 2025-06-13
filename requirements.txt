@@ -1,3 +1,10 @@
 streamlit
 pandas
 xlsxwriter
+streamlit-authenticator==0.4.2
+bcrypt
+reportlab
+streamlit-option-menu
+pyyaml
+plotly
+numpy

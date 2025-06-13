@@ -1,0 +1,29 @@
+cookie:
+  expiry_days: 30
+  key: b17d57c43c7a9f2e195f1a65b8240db9cfdf282c31111e9bbf89340ad4eb2f36
+  name: coop_auth_cookie
+credentials:
+  usernames:
+    admin_user:
+      email: admin@coop.com
+      name: Admin Principal
+      password: $2b$12$iumS.ap.YKtHTT.wX3ffQ.CaTuF8YRu9YAA9acdcAtI//TOaxatEu
+      role: admin
+    comptable_user:
+      email: compta@coop.com
+      name: Alice Comptable
+      password: $2b$12$hvTHXmOlB7hoZibXfwOtBeZoGy9SIvRlXybrNB7NGoUGUELbqQSCm
+      role: comptable
+    magasinier_user:
+      email: stock@coop.com
+      name: Paul Magasinier
+      password: $2b$12$FdMUkkYXpC9pqjV4MmxJf.ycWKI5E9CeqfX7HtixWWghsxRG5qjKK
+      role: magasinier
+    membre_lambda:
+      email: membre@coop.com
+      name: Jean Membre
+      password: $2b$12$A4mLosNaaB.3jdnaPu2KAemJ2SljoVhiNJtK/0sJR2wjLszrF195O
+      role: membre
+preauthorized:
+  emails:
+  - melsby@gmail.com

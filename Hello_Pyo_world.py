@@ -361,3 +361,46 @@ elif menu == "Rapports & Synthèse":
 else:
     st.title("Bienvenue !")
     st.write("Utilisez le menu pour naviguer dans l'application de gestion de la Coopérative.")
+
+
+
+
+'''mot de pass'''
+
+import yaml
+from yaml.loader import SafeLoader
+from streamlit_authenticator.utilities.hasher import Hasher
+
+# Mots de passe temporaires en clair
+new_passwords = {
+    'admin_user': 'adminpass',
+    'membre_lambda': 'membrepass',
+    'comptable_user': 'comptapass',
+    'magasinier_user': 'magasinierpass'
+}
+
+try:
+    # Charger la configuration actuelle
+    with open('config.yaml') as file:
+        config = yaml.load(file, Loader=SafeLoader)
+
+    # Mettre à jour les mots de passe avec les versions en clair
+    for username, password in new_passwords.items():
+        if username in config['credentials']['usernames']:
+            config['credentials']['usernames'][username]['password'] = password
+
+    # Chiffrer les mots de passe directement dans la structure des credentials
+    # La fonction retourne la structure avec les mots de passe chiffrés
+    hashed_credentials = Hasher().hash_passwords(config['credentials'])
+
+    # Mettre à jour la configuration principale avec les nouveaux identifiants chiffrés
+    config['credentials'] = hashed_credentials
+
+    # Réécrire le fichier de configuration avec les mots de passe mis à jour
+    with open('config.yaml', 'w') as file:
+        yaml.dump(config, file, default_flow_style=False)
+
+    print("Le fichier config.yaml a été mis à jour avec succès avec les nouveaux mots de passe.")
+
+except Exception as e:
+    print(f"Une erreur est survenue : {e}")
